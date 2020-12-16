@@ -16,6 +16,10 @@
 			       (file+headline "~/Documents/gtd/tickler.org" "Tickler")
 			       "* %i%? \n %U")))
 
+;; start capture in insert mode
+(use-package evil-org
+  :hook (org-capture-mode . evil-insert-state))
+
 ;; set tags
 (setq org-tag-alist '(("@errand" . ?e) ("@office" . ?o)))
 
@@ -85,10 +89,15 @@
 (setq org-log-done 'time)
 (setq org-log-into-drawer t)
 
-(define-key org-agenda-mode-map "j" 'org-agenda-next-item)
-(define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
+;; save after refiling
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
+
 
 ;; AARON BIEBER MODE
+(add-hook 'org-agenda-mode-hook (lambda ()
+				  (define-key org-agenda-mode-map "j" 'org-agenda-next-item)
+				  (define-key org-agenda-mode-map "k" 'org-agenda-previous-item)))
+
 (defun air-org-agenda-next-header ()
   "Jump to the next header in an agenda series."
   (interactive)
