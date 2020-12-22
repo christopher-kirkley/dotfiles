@@ -128,3 +128,7 @@ alias config='/usr/bin/git --git-dir=/home/ck/dotfiles --work-tree=/home/ck'
 
 # set CD path to shared drive
 export CDPATH=/media/share:/media/share/sahel_label/catalog_working
+
+
+# ENV VARIABLES
+export LABEL="/media/share/sahel_label"

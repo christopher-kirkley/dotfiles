@@ -55,6 +55,25 @@ bindsym $mod+Shift+q kill
 # start rofi
 bindsym $mod+d exec rofi -show drun -show-icons
 
+# calculator
+bindsym $mod+c exec ~/scripts/calculator.sh
+
+# quick capture a todo into orgmode
+bindsym $mod+t exec ~/scripts/todo_quick_capture.sh
+
+# download youtube video 
+bindsym $mod+y exec ~/scripts/youtube.sh
+
+# power options
+bindsym $mod+p exec ~/scripts/rofi_power.sh
+
+# screenshots
+# Multi-screen screenshots with scrot
+bindsym --release Print exec scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # All screens
+
+# OSX-like area selection screenshots
+bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
+
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
