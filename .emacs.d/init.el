@@ -16,7 +16,7 @@
 (setq visible-bell t)
 
 ;; set font
-(set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 110)
+(set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 120)
 
 
 ;; Initialize package sources
@@ -24,7 +24,6 @@
 
 (setq package-archives
              '(("melpa" . "https://melpa.org/packages/")
-             ("org" . "https://orgmode.org/elpa/")
              ("elpa" . "https://elpa.gnu.org/packages/")
 	     ))
 
@@ -39,6 +38,12 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; LOAD ORG MODE
+(add-to-list 'load-path "~/.emacs.d/org-mode/lisp")
+(add-to-list 'load-path "~/.emacs.d/org-mode/contrib/lisp" t)
+
+;; Use org-depend.el
+(require 'org-depend)
 
 ;; TRY IVY
 (use-package ivy)
@@ -86,6 +91,9 @@
   (when (not split)
     (delete-other-windows)))
 
+;; GTD stuff
+(load "~/gtd.el")
+
 ;; org mode keybindings
 (evil-leader/set-key
   "d" 'air-pop-to-org-agenda
@@ -94,6 +102,7 @@
   "s" 'org-capture-finalize
   "k" 'org-capture-kill
   "w" 'org-refile
+  "p" 'add-sequential-project-property
   )
 
 ;; Enable Evil
@@ -118,17 +127,16 @@
 
 ;; Make it look better
 
-(use-package org
-  :config
+;(use-package org
+;  :config
   (setq org-ellipsis " ↡"
 	org-hide-emphasis-markers t
-	))
+	)
 
+(use-package org-bullets)
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-;; GTD stuff
-(load "~/gtd.el")
 
 
 (custom-set-faces
@@ -142,10 +150,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    ("~/Documents/gtd/inbox.org" "~/Documents/gtd/royaltyapp.org" "~/Documents/gtd/main.org" "~/Documents/gtd/sahelsounds.org" "~/Documents/gtd/someday.org" "~/Documents/gtd/tickler.org" "~/Documents/gtd/recordproj/ss062_wau_wau_collectif.org" "~/Documents/gtd/recordproj/ss063_les_filles_de_illighadad.org" "~/Documents/gtd/recordproj/ss065_mamaki_boys.org" "~/Documents/gtd/recordproj/ss066_etran_de_lair.org" "~/Documents/gtd/recordproj/ss067_mfsc3.org" "~/Documents/gtd/recordproj/ss068_alkibar_jr.org" "~/Documents/gtd/recordproj/whatsapp.org")))
  '(package-selected-packages
    (quote
     (evil-org evil-leader use-package org-superstar org-bullets ivy-rich helm forge evil doom-themes doom-modeline counsel command-log-mode))))
 
 ;; SET AUTOSAVE LOCATION
-(setq auto-save-file-name-transforms
-  `((".*" "~/.cache/emacs/" t)))
+(setq backup-directory-alist `(("." . "~/.cache/emacs")))
+(setq backup-by-copying t)
+(setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
+

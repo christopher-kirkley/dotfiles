@@ -7,6 +7,25 @@
 (setq org-deadline-warning-days 5)
 
 
+
+;; ================== TODOS ========================
+
+;; trying out sequential projects
+
+;; This is one way of using
+;; by enforcing dependencies, prevents making something done
+;; when previous entries are not done
+;; but not really what i'm looking for
+;; (setq org-enforce-todo-dependencies t)
+;; C-c C-x o (org-toggle-ordered-property)
+
+(defun add-sequential-project-property ()
+  "Make sequential project property to the current item."
+  (interactive)
+  (org-set-property "TRIGGER" "chain-siblings(NEXT)"))
+
+(add-hook 'org-capture-before-finalize-hook 'add-sequential_project_property)
+
 ;; ================== CAPTURE & PROCESS ========================
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
@@ -35,6 +54,7 @@
 
 (setq org-agenda-files (append '(
 			 "~/Documents/gtd/inbox.org"
+			 "~/Documents/gtd/royaltyapp.org"
 			 "~/Documents/gtd/main.org"
 			 "~/Documents/gtd/sahelsounds.org"
 			 "~/Documents/gtd/someday.org"
@@ -52,13 +72,16 @@
 	("o" tags "@office" nil)
       ))
 
-
+(setq org-agenda-start-day "d")         ;; set start date
+(setq org-agenda-span 7)                ;; set length of agenda
+(setq org-agenda-start-on-weekday nil)  ;; set start day of week
 
 
 ;; ================== REFILING  ========================
 
 (setq org-refile-targets (quote (
 				 (org-agenda-files :maxlevel . 1)
+				;; ("archive.org" :maxlevel . 1)
 				 )))
 
 (setq org-refile-use-outline-path 'file)
